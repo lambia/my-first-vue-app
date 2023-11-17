@@ -32,14 +32,23 @@ body {
     justify-content: space-between;
 }
 
+.bottoniera {
+    text-align: center;
+}
+
 /* una classe per le immagini di default (non-attive) */
-.img {
+.thumb {
     border-radius: 0.5rem;
     width: 10rem;
     opacity: 0.5;
 }
 
 /* una classe per immagine "attiva" */
-.imgActive {
+.thumbActive {
     opacity: 1;
+}
+
+.currentImage {
+    margin: 1rem 0;
+    text-align: center;
 }

@@ -9,55 +9,24 @@
 </head>
 <body>
     <div id="app">
-        <!-- <h1>{{ getMessage() }}</h1>  -->
-        <!-- <h1>{{ message }}{{ nome }} {{cognome}}</h1> -->
-        <!-- <h2>Inserisci i tuoi dati:</h2>
-        Nome: <input type="text" v-model="nome"><br>
-        Cognome: <input type="text" v-model="cognome">
-
-        <br>
-        <br>
-        
-        <h2 v-bind:class="h2Classes">Testo camaleonte</h2>
-        Classi colore: <input v-model="h2Classes">
-        <button @click="cambiaColore">Cambia colore</button>
-        <select v-model="h2Classes">
-            <option v-for="colore in colori">{{ colore }}</option>
-        </select>
-
-        <br>
-        <br>
-
-        <div>
-            <button @click="toggleImmagine">Mostra/nascondi immagine</button>
-        </div>
-        <img v-show="imgVisible" :src="imgPath" alt="" >
-        <span v-show="!imgVisible">Immagine non caricata</span> -->
-
-        <!-- Cicli con i numeri -->
-        <!-- <ul> -->
-            <!-- <li v-for="numero in numeri">{{ numero }}</li> -->
-            <!-- <li v-for="numero in [1, 2, 3, 4, 5, 6]">{{ numero }}</li> -->
-            <!-- <li v-for="numero in maxNumero">{{ numero }}</li> -->
-            <!-- <li v-for="numero in getNumero()">{{ numero }}</li> -->
-        <!-- </ul> -->
-
-        <!-- ciclo per immagini -->
+        <!-- ciclo per le immagini -->
         <div class="container">
-            <!-- le classi dell'immagine saranno: -->
-            <!-- mandalorian-img di default, per tutte -->
-            <!-- mandalorian-img e mandalorian-img-active, per quella attiva -->
-            <!-- quella attiva => i == slideNumber -->
-
-            <img v-for="(path, i) in immagini" :src="path" class="img" :class="{ imgActive: (i == slideNumber) }" >
+            <img v-for="(img, i) in immagini" :key="i" @click="slideSet(i)" :src="img.immagine" :class="getThumbClass(i)" :alt="img.descrizione" >
+        </div>
+        
+        <!-- abbiamo dei pulsanti che al click cambiano il valore di currentImg -->
+        <div class="bottoniera">
+            <button @click="slideBack()">indietro</button>
+            <button @click="slideNext()">avanti</button>
+            <button @click="autoPlay()">{{ intervallo ? "Stop" : "Play"  }}</button>
         </div>
 
-        <!-- abbiamo un'immagine, che è quella corrente: immagini[slideNumber] -->
-        <img :src="immagini[slideNumber]" alt="">
-
-        <!-- abbiamo dei pulsanti che al click cambiano il valore di slideNumber -->
-        <button @click="back()">indietro</button>
-        <button @click="next()">avanti</button>
+        <!-- abbiamo un'immagine, che è quella corrente: immagini[currentImg] -->
+        <div class="currentImage">
+            <img :src="immagini[currentImg].immagine" alt="" @mouseenter="autoPlay()" @mouseleave="autoPlay()" >
+            <h1>{{ immagini[currentImg].titolo }}</h1>
+            <h2>{{ immagini[currentImg].descrizione }}</h2>
+        </div>
     </div>
     
     <script src="js/main.js"></script>

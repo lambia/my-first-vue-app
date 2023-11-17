@@ -3,74 +3,77 @@ const { createApp } = Vue;
 const opzioni = {
     data: function () {
         return {
-            // message: 'Benvenuto, ',
-            // nome: "mario",
-            // cognome: "rossi",
-            // colori: [
-            //     "red",
-            //     "aqua",
-            //     "green",
-            //     "violet"
-            // ],
-            // coloreAttuale: 0,
-            // h2Classes: "green",
-            // imgPath: "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-            // imgVisible: true,
-            // numeri: [ 1, 2, 3, 5, 8, 13]
-            // maxNumero: 33
+            currentImg: 0,
+            intervallo: null,
             immagini: [
-                'https://www.themoviedb.org/t/p/w500/qruRhG6jE5M8lWnW1AGOBxtdmCO.jpg',
-                'https://www.themoviedb.org/t/p/w500/vGujlColp9TkLCOgkPr92azJlR8.jpg',
-                'https://www.themoviedb.org/t/p/w500/ui9dxJfw9I8dJzil9x5ZeXLsrFF.jpg',
-                'https://www.themoviedb.org/t/p/w500/rE1AOt56R4vrvVKpWrQ4wn7DYyg.jpg'
-            ],
-            slideNumber: 0
+                {
+                    immagine: 'https://c4.wallpaperflare.com/wallpaper/362/276/920/nature-4k-pc-full-hd-wallpaper-preview.jpg',
+                    titolo: 'Un lago',
+                    descrizione: 'I laghi sono grandi tazze di pietra piene d\'acqua'
+                },
+                {
+                    immagine: 'https://img.freepik.com/free-photo/sunset-time-tropical-beach-sea-with-coconut-palm-tree_74190-1075.jpg',
+                    titolo: 'Tramonto sulla spiaggia',
+                    descrizione: 'Un meraviglioso tramonto con colori caldi che si riflettono sull\'acqua.'
+                },
+                {
+                    immagine: 'https://img.freepik.com/free-photo/beautiful-shot-mountains-trees-covered-snow-fog_181624-17590.jpg',
+                    titolo: 'Montagne innevate',
+                    descrizione: 'Un panorama mozzafiato delle montagne coperte di neve.'
+                },
+                {
+                    immagine: 'https://img.freepik.com/free-photo/countryside-field-sunny-day-countryside_181624-24010.jpg',
+                    titolo: 'Campi verdi',
+                    descrizione: 'Vaste distese di campi verdi che si estendono all\'orizzonte.'
+                },
+                {
+                    immagine: 'https://t3.ftcdn.net/jpg/05/35/47/38/360_F_535473874_OWCa2ohzXXNZgqnlzF9QETsnbrSO9pFS.jpg',
+                    titolo: 'Sottobosco',
+                    descrizione: 'Il sottobosco si trova sotto il bosco.'
+                }
+            ]
         }
     },
     methods: {
-        back() {
+        getThumbClass(n) {
+            return (n==this.currentImg) ? "thumb thumbActive" : "thumb";
+        },
+        slideBack() {
             let indiceUltimaImg = this.immagini.length-1;
 
-            if(this.slideNumber > 0) {
-                this.slideNumber--;
+            if(this.currentImg > 0) {
+                this.currentImg--;
             } else {
-                this.slideNumber = indiceUltimaImg;
+                this.currentImg = indiceUltimaImg;
             }
         },
-        next() {
+        slideNext() {
             let indiceUltimaImg = this.immagini.length-1;
 
-            if(this.slideNumber < indiceUltimaImg) {
-                this.slideNumber++;
+            if(this.currentImg < indiceUltimaImg) {
+                this.currentImg++;
             } else {
-                this.slideNumber = 0;
+                this.currentImg = 0;
+            }
+        },
+        slideSet(n) {
+            this.currentImg = n;
+        },
+        autoPlay() {
+            if( !this.intervallo ) {
+                this.intervallo = setInterval(()=>{
+                    this.slideNext();
+                }, 1000);
+            } else {
+                clearInterval( this.intervallo );
+                this.intervallo = null;
             }
         }
-        // getNumero: function() {
-        //     return 3*33+2;
-        // },
-        // getMessage() {
-        //     return this.message + this.nome + " " + this.cognome;
-        // },
-        // cambiaColore: function () {
-
-        //     if( this.coloreAttuale < this.colori.length-1 ) {
-        //         this.coloreAttuale++;
-        //         this.h2Classes = this.colori[this.coloreAttuale];
-        //     } else {
-        //         this.coloreAttuale = 0;
-        //         this.h2Classes = this.colori[this.coloreAttuale];
-        //     }
-        // },
-        // toggleImmagine() {
-        //     this.imgVisible = !this.imgVisible;
-        // }
     },
-    // MI RACCOMANDO FUORI DAL methods:{} !!!
     mounted() {
         console.log(`Pagina caricata`);
-        // this.h2Classes = this.colori[this.coloreAttuale];
-    }
+        this.autoPlay();
+    },
 };
 
 createApp(opzioni).mount('#app')
